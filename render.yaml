@@ -2,6 +2,7 @@ services:
   - type: web
     name: integramente-v2
     env: python
+    plan: free
     buildCommand: pip install -r app/backend/requirements.txt
     startCommand: cd app/backend && uvicorn main:app --host 0.0.0.0 --port $PORT
     envVars:
