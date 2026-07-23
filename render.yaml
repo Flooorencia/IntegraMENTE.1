@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: integramente-v2
+    env: python
+    buildCommand: pip install -r app/backend/requirements.txt
+    startCommand: cd app/backend && uvicorn main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: ELEVENLABS_API_KEY
+        sync: false
