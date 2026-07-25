@@ -1,0 +1,21 @@
+{
+  "titulo": "Preguntas frecuentes",
+  "items": [
+    {
+      "pregunta": "¿Qué pasa si me olvido que tengo la sesión iniciada?",
+      "respuesta": "Si te olvidás de la sesión iniciada, o estás en un momento de introspección y silencio, no te preocupes: a los 120 segundos sin actividad en el chat aparece un aviso chiquito preguntando si necesitás más tiempo, con la opción de finalizar la sesión si querés. No pasa nada si no hacés nada — podés seguir cuando quieras, a tu ritmo."
+    },
+    {
+      "pregunta": "¿Dónde se guarda lo que comparto? ¿Alguien más lo puede ver?",
+      "respuesta": "Todo lo que contás — tus relatos, tus métricas, tus frases guardadas y tus reportes — queda almacenado únicamente en tu propio dispositivo. No se comparte, no se distribuye ni se muestra a otras personas. Es completamente confidencial: nadie más que vos tiene acceso a lo que escribís o decís acá."
+    },
+    {
+      "pregunta": "¿Es esto terapia o reemplaza a un profesional?",
+      "respuesta": "No. ÍntegraMENTE es un acompañamiento breve para el día a día, no un tratamiento ni un diagnóstico. Si en algún momento necesitás ayuda profesional, siempre te lo vamos a decir con claridad."
+    },
+    {
+      "pregunta": "¿Qué hago si algo no funciona bien?",
+      "respuesta": "Si una pantalla no responde o algo se traba, probá volver atrás con el botón de la esquina o recargar la página. Tu progreso de esa sesión puede perderse, pero tus métricas, frases y reportes guardados no se ven afectados porque ya quedaron en tu dispositivo."
+    }
+  ]
+}
