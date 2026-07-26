@@ -822,7 +822,7 @@ input.campo-input:focus { outline: none; border-color: var(--magenta); }
   overflow: hidden;
   z-index: 0;
   pointer-events: none;
-  filter: blur(55px) saturate(1.25);
+  filter: blur(30px) saturate(1.25);
 }
 .lava-blob {
   position: absolute;
