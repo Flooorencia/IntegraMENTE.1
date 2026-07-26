@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ÍntegraMENTE — Transformación con estructura</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="static/estilos.css?v=11">
+</head>
+<body>
+<div id="app">
+
+  <!-- Botón atrás global: arriba a la izquierda, ícono -->
+  <button id="btn-atras-global" class="btn-atras-global btn-circular-marca oculto" aria-label="Volver">
+    <span class="circulo-interior">
+      <svg viewBox="0 0 24 24" width="18" height="18" fill="none">
+        <defs><linearGradient id="gradAtras" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" class="grad-stop-a"></stop><stop offset="100%" class="grad-stop-b"></stop>
+        </linearGradient></defs>
+        <path d="M15 19l-7-7 7-7" stroke="#36091A" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"></path>
+      </svg>
+    </span>
+  </button>
+
+  <!-- Menú global: arriba a la derecha — silenciador, métricas, reportes, finalizar -->
+  <div class="menu-global-wrap oculto" id="menu-global-wrap">
+    <button id="btn-menu-global" class="btn-menu-global btn-circular-marca" aria-label="Menú">
+      <span class="circulo-interior">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none">
+          <defs><linearGradient id="gradMenu" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" class="grad-stop-a"></stop><stop offset="100%" class="grad-stop-b"></stop>
+          </linearGradient></defs>
+          <line x1="3.5" y1="6.5" x2="20.5" y2="6.5" stroke="#36091A" stroke-width="2.6" stroke-linecap="round"></line>
+          <line x1="3.5" y1="12" x2="20.5" y2="12" stroke="#36091A" stroke-width="2.6" stroke-linecap="round"></line>
+          <line x1="3.5" y1="17.5" x2="20.5" y2="17.5" stroke="#36091A" stroke-width="2.6" stroke-linecap="round"></line>
+        </svg>
+      </span>
+    </button>
+    <div class="menu-global-panel oculto" id="menu-global-panel">
+      <button class="menu-item oculto" id="menu-item-volver-chat">💬 Volver a la conversación</button>
+      <button class="menu-item" id="menu-item-silenciar">🔊 Silenciar</button>
+      <button class="menu-item" id="menu-item-nosotros">ℹ️ Acerca de ÍntegraMENTE</button>
+      <button class="menu-item" id="menu-item-preguntas">❓ Preguntas frecuentes</button>
+      <button class="menu-item" id="menu-item-frases">💪 Frases poderosas</button>
+      <button class="menu-item" id="menu-item-metricas">📊 Mis métricas</button>
+      <button class="menu-item" id="menu-item-reportes">📄 Reportes</button>
+      <button class="menu-item" id="menu-item-opinion">⭐ Tu opinión nos ayuda a crecer</button>
+      <button class="menu-item" id="menu-item-admin">🔒 Panel administrador</button>
+      <button class="menu-item menu-item-danger" id="menu-item-finalizar">✕ Finalizar sesión</button>
+    </div>
+  </div>
+
+  <!-- Saludo centrado entre atrás y menú — aparece 1 sola vez, al loguearse -->
+  <span class="saludo-centrado oculto" id="saludo-usuario"></span>
+
+  <!-- ============== PANTALLA 1: BIENVENIDA ============== -->
+  <section class="pantalla pantalla-bienvenida activa" id="pantalla-bienvenida">
+    <div class="tarjeta-logo">
+      <img src="static/img/logo.png" alt="ÍntegraMENTE" class="logo-imagen">
+    </div>
+    <p class="bienvenida-frase">
+      Te doy la bienvenida a ÍntegraMENTE. Un espacio seguro pensado para pausar,
+      observarte y crear la persona que querés ser.
+    </p>
+    <div class="grupo-botones" style="margin-top:0;">
+      <button class="btn btn-blanco-sobre-oscuro" id="btn-iniciar-sesion">Iniciar sesión</button>
+      <button class="btn btn-fantasma-sobre-oscuro" id="btn-registrarse">Registrarme</button>
+    </div>
+  </section>
+
+  <!-- ============== PANTALLA 2: ONBOARDING / REGISTRO ============== -->
+  <section class="pantalla" id="pantalla-registro">
+    <div class="eyebrow" id="eyebrow-registro">ÍNTEGRAMENTE</div>
+    <h1 class="titulo-pantalla" id="titulo-registro">Bienvenida/o a ÍntegraMENTE</h1>
+    <p class="subtitulo-pantalla" id="subtitulo-registro">Comencemos a crear tu espacio privado, confidencial y de crecimiento.</p>
+
+    <div id="error-registro" class="error-mensaje oculto"></div>
+
+    <input type="text" class="campo-input" id="input-nombre" placeholder="Tu nombre" autocomplete="name">
+    <div class="campo-password-wrap">
+      <input type="password" class="campo-input" id="input-password" placeholder="Contraseña" autocomplete="new-password">
+      <button type="button" class="btn-ojito" id="btn-ojito-password" aria-label="Mostrar contraseña">👁️</button>
+    </div>
+
+    <div id="bloque-condiciones">
+      <div class="condiciones-caja">
+        <strong>Condiciones del servicio y exclusión de responsabilidad</strong><br><br>
+        <strong>Espacio seguro y confidencial:</strong> toda la información compartida se trata bajo estrictos
+        estándares de confidencialidad y respeto.<br><br>
+        <strong>Restricción de edad:</strong> el acceso está restringido exclusivamente a personas mayores de 18 años.<br><br>
+        <strong>No reemplaza terapia profesional:</strong> los contenidos ofrecidos tienen carácter de
+        acompañamiento y orientación. No constituyen terapia psicológica, psiquiátrica ni médica, ni pretenden
+        diagnosticar o tratar ninguna condición de salud mental.
+      </div>
+      <label class="checkbox-condiciones">
+        <input type="checkbox" id="check-condiciones">
+        Confirmo que soy mayor de 18 años y acepto las condiciones del servicio.
+      </label>
+    </div>
+
+    <div class="grupo-botones">
+      <button class="btn btn-primario" id="btn-confirmar-registro">Continuar</button>
+    </div>
+  </section>
+
+  <!-- ============== PANTALLA 2B: USUARIO CREADO CON ÉXITO (solo tras registrarse) ============== -->
+  <section class="pantalla" id="pantalla-usuario-creado">
+    <div class="eyebrow">ÍNTEGRAMENTE</div>
+    <h1 class="titulo-pantalla">Usuario creado con éxito</h1>
+    <p class="subtitulo-pantalla">Guardá tus datos de acceso. Los vas a necesitar la próxima vez que inicies sesión.</p>
+
+    <div class="condiciones-caja" style="text-align:left;">
+      <strong>Usuario:</strong> <span id="dato-usuario-creado"></span><br><br>
+      <strong>Contraseña:</strong>
+      <span id="dato-password-creado"></span>
+      <button type="button" class="btn-link-mostrar" id="btn-mostrar-password">Mostrar</button>
+    </div>
+
+    <div class="grupo-botones">
+      <button class="btn btn-primario" id="btn-ir-a-iniciar-sesion">Iniciar sesión</button>
+    </div>
+  </section>
+
+  <!-- ============== PANTALLA 3: CANAL DE EXPRESIÓN ============== -->
+  <section class="pantalla" id="pantalla-canal">
+    <h1 class="titulo-pantalla">¿De qué manera elegís traer tu ser y tu voz hoy?</h1>
+    <p class="subtitulo-pantalla">Tenés libertad absoluta de expresarte: contanos qué te preocupa, cómo te sentís o qué quiebre está habitando tu día.</p>
+
+    <div class="opciones-circulares">
+      <button class="btn-circular" data-canal="video">
+        <span class="circulo">🎥</span><span class="etiqueta">Video</span>
+      </button>
+      <button class="btn-circular" data-canal="audio">
+        <span class="circulo">🎙️</span><span class="etiqueta">Audio</span>
+      </button>
+      <button class="btn-circular" data-canal="texto">
+        <span class="circulo">✍️</span><span class="etiqueta">Texto</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- ============== PANTALLA 4a: GRABACIÓN VIDEO ============== -->
+  <section class="pantalla" id="pantalla-video">
+    <h1 class="titulo-pantalla">Contanos con tu video</h1>
+    <p class="subtitulo-pantalla">Tenés hasta 60 segundos. Cuando termines, presioná enviar.</p>
+    <div class="zona-grabacion">
+      <video id="video-preview" autoplay muted playsinline></video>
+      <!-- Canvas superpuesto: dibuja los puntos de landmark y la etiqueta de expresión en tiempo real -->
+      <canvas id="canvas-facial" class="canvas-facial-overlay"></canvas>
+      <div class="cronometro" id="cronometro-video">00:60</div>
+      <!-- Subtítulos en vivo de la transcripción de voz -->
+      <div class="subtitulo-voz oculto" id="subtitulo-voz-live"></div>
+    </div>
+    
+    <!-- ===== PANEL DE DEMOSTRACIÓN TÉCNICA: análisis facial en vivo =====
+         Pensado para la defensa de la materia: muestra en tiempo real los
+         mismos parámetros de MediaPipe que la IA usa como pista adicional
+         al generar el diagnóstico. No agrega análisis nuevo, solo lo hace
+         visible. Bloque autocontenido, fácil de quitar después si no se
+         necesita más (basta con borrar esta sección y la línea de CSS
+         correspondiente en estilos.css). -->
+    <div class="panel-deteccion-facial oculto" id="panel-deteccion-facial">
+      <div class="panel-facial-titulo">📊 Panel de demostración técnica — Reconocimiento facial en vivo</div>
+      <p class="panel-facial-lectura">Lectura actual: <strong id="lectura-facial-actual">Expresión neutra</strong></p>
+        <div class="fila-parametro-facial">
+          <span class="etiqueta-parametro-facial">Ceja izquierda fruncida</span>
+          <div class="barra-fondo-facial"><div class="barra-relleno-facial" id="barra-facial-browDownLeft"></div></div>
+          <span class="valor-parametro-facial" id="valor-facial-browDownLeft">0%</span>
+        </div>
+        <div class="fila-parametro-facial">
+          <span class="etiqueta-parametro-facial">Ceja derecha fruncida</span>
+          <div class="barra-fondo-facial"><div class="barra-relleno-facial" id="barra-facial-browDownRight"></div></div>
+          <span class="valor-parametro-facial" id="valor-facial-browDownRight">0%</span>
+        </div>
+        <div class="fila-parametro-facial">
+          <span class="etiqueta-parametro-facial">Comisura izquierda hacia abajo</span>
+          <div class="barra-fondo-facial"><div class="barra-relleno-facial" id="barra-facial-mouthFrownLeft"></div></div>
+          <span class="valor-parametro-facial" id="valor-facial-mouthFrownLeft">0%</span>
+        </div>
+        <div class="fila-parametro-facial">
+          <span class="etiqueta-parametro-facial">Comisura derecha hacia abajo</span>
+          <div class="barra-fondo-facial"><div class="barra-relleno-facial" id="barra-facial-mouthFrownRight"></div></div>
+          <span class="valor-parametro-facial" id="valor-facial-mouthFrownRight">0%</span>
+        </div>
+        <div class="fila-parametro-facial">
+          <span class="etiqueta-parametro-facial">Sonrisa (lado izquierdo)</span>
+          <div class="barra-fondo-facial"><div class="barra-relleno-facial" id="barra-facial-mouthSmileLeft"></div></div>
+          <span class="valor-parametro-facial" id="valor-facial-mouthSmileLeft">0%</span>
+        </div>
+        <div class="fila-parametro-facial">
+          <span class="etiqueta-parametro-facial">Sonrisa (lado derecho)</span>
+          <div class="barra-fondo-facial"><div class="barra-relleno-facial" id="barra-facial-mouthSmileRight"></div></div>
+          <span class="valor-parametro-facial" id="valor-facial-mouthSmileRight">0%</span>
+        </div>
+        <div class="fila-parametro-facial">
+          <span class="etiqueta-parametro-facial">Ojo izquierdo entrecerrado</span>
+          <div class="barra-fondo-facial"><div class="barra-relleno-facial" id="barra-facial-eyeSquintLeft"></div></div>
+          <span class="valor-parametro-facial" id="valor-facial-eyeSquintLeft">0%</span>
+        </div>
+        <div class="fila-parametro-facial">
+          <span class="etiqueta-parametro-facial">Ojo derecho entrecerrado</span>
+          <div class="barra-fondo-facial"><div class="barra-relleno-facial" id="barra-facial-eyeSquintRight"></div></div>
+          <span class="valor-parametro-facial" id="valor-facial-eyeSquintRight">0%</span>
+        </div>
+    </div>
+
+    <div id="error-video" class="error-mensaje oculto"></div>
+    <div class="grupo-botones">
+      <button class="btn btn-primario" id="btn-grabar-video">● Grabar</button>
+    </div>
+  </section>
+
+  <!-- ============== PANTALLA 4b: GRABACIÓN AUDIO ============== -->
+  <section class="pantalla" id="pantalla-audio">
+    <h1 class="titulo-pantalla">Contanos con tu voz</h1>
+    <p class="subtitulo-pantalla">Tenés hasta 60 segundos. Cuando termines, presioná enviar.</p>
+    <div class="zona-grabacion" style="aspect-ratio:auto; height:220px; flex-direction:column;">
+      <div class="mic-icono">🎙️</div>
+      <div class="ondas-audio oculto" id="ondas-audio">
+        <div class="barra" style="height:20px"></div><div class="barra" style="height:38px"></div>
+        <div class="barra" style="height:14px"></div><div class="barra" style="height:46px"></div>
+        <div class="barra" style="height:24px"></div><div class="barra" style="height:34px"></div>
+      </div>
+      <div class="cronometro" id="cronometro-audio">00:60</div>
+    </div>
+    <div id="error-audio" class="error-mensaje oculto"></div>
+    <div class="grupo-botones">
+      <button class="btn btn-primario" id="btn-grabar-audio">● Grabar</button>
+    </div>
+  </section>
+
+  <!-- ============== PANTALLA 4c: TEXTO ============== -->
+  <section class="pantalla" id="pantalla-texto">
+    <h1 class="titulo-pantalla">Contanos por escrito</h1>
+    <p class="subtitulo-pantalla">Si preferís más intimidad, escribí lo que estás atravesando hoy. Hasta 500 palabras.</p>
+    <textarea class="campo-texto" id="input-relato-texto" placeholder="Hoy estoy sintiendo..." maxlength="3500"></textarea>
+    <div class="contador-palabras" id="contador-palabras">0 / 500 palabras</div>
+    <div class="grupo-botones">
+      <button class="btn btn-primario" id="btn-enviar-texto">Enviar</button>
+    </div>
+  </section>
+
+  <!-- ============== PANTALLA 5: ANÁLISIS (SPINNER) ============== -->
+  <section class="pantalla" id="pantalla-analisis">
+    <div class="spinner-zona">
+      <div class="spinner"></div>
+      <p class="subtitulo-pantalla" style="margin:0;">Conectando con lo que compartiste...</p>
+    </div>
+  </section>
+
+  <!-- ============== PANTALLA 6: DEVOLUCIÓN + DOMINIOS ============== -->
+  <section class="pantalla" id="pantalla-devolucion">
+    <div class="eyebrow">Lo que veo en vos</div>
+    <div class="tarjeta-mensaje">
+      <p id="texto-diagnostico">…</p>
+      <button class="btn-audio-reproducir" id="btn-reproducir-diagnostico">🔊 Escuchar</button>
+    </div>
+    <h1 class="titulo-pantalla" style="font-size:18px;">¿Desde qué dominio elegís que te acompañe?</h1>
+    <div class="opciones-circulares">
+      <button class="btn-circular" data-dominio="Cuerpo">
+        <span class="circulo">🧘</span><span class="etiqueta">Cuerpo</span>
+      </button>
+      <button class="btn-circular" data-dominio="Lenguaje">
+        <span class="circulo">✍️</span><span class="etiqueta">Lenguaje</span>
+      </button>
+      <button class="btn-circular" data-dominio="Emocion">
+        <span class="circulo">💗</span><span class="etiqueta">Emoción</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- ============== PANTALLA 7: HERRAMIENTAS DEL DOMINIO ============== -->
+  <section class="pantalla" id="pantalla-herramientas">
+    <div class="eyebrow" id="eyebrow-dominio">Dominio</div>
+    <h1 class="titulo-pantalla" id="titulo-herramientas">Elegí tu herramienta</h1>
+    <p class="subtitulo-pantalla" id="subtitulo-herramientas"></p>
+
+    <div class="tarjetas-herramientas">
+      <button class="tarjeta-herramienta" data-herramienta="practica_guiada">
+        <span class="icono">⏱️</span>
+        <span class="texto"><strong>Ejercicio del momento</strong><span>Algo breve para hacer ahora, a tu ritmo.</span></span>
+      </button>
+      <button class="tarjeta-herramienta" data-herramienta="microaudio">
+        <span class="icono">🧘‍♀️</span>
+        <span class="texto"><strong>Meditación guiada</strong><span>Una voz te acompaña de principio a fin.</span></span>
+      </button>
+      <button class="tarjeta-herramienta" data-herramienta="bitacora">
+        <span class="icono">✍️</span>
+        <span class="texto"><strong>Tu bitácora</strong><span>Un espacio para escribir y soltar.</span></span>
+      </button>
+    </div>
+    <button class="btn btn-primario mt-auto" id="btn-finalizar-desde-herramientas">Finalizar</button>
+  </section>
+
+  <!-- ============== PANTALLA 8: EJECUCIÓN DEL EJERCICIO (guiado por pasos, misma estructura que meditación) ============== -->
+  <section class="pantalla" id="pantalla-ejercicio">
+    <div class="eyebrow" id="eyebrow-ejercicio">Ejercicio en curso</div>
+    <div class="meditacion-zona">
+      <div class="meditacion-circulo ejercicio-circulo" id="ejercicio-circulo"></div>
+      <p class="meditacion-texto-paso" id="ejercicio-texto-paso">…</p>
+      <div class="meditacion-puntos" id="ejercicio-puntos"></div>
+    </div>
+    <button class="btn-saltear" id="btn-saltear-ejercicio">Saltear →</button>
+  </section>
+
+
+  <!-- ============== BITÁCORA — PASO 1: CONSIGNA ============== -->
+  <section class="pantalla" id="pantalla-bitacora-consigna">
+    <div class="eyebrow" id="eyebrow-bitacora">Tu bitácora</div>
+    <div class="tarjeta-mensaje">
+      <p id="texto-consigna-bitacora">…</p>
+      <button class="btn-audio-reproducir" id="btn-reproducir-consigna-bitacora">🔊 Escuchar</button>
+    </div>
+    <div class="bitacora-input-fila">
+      <textarea class="campo-texto" id="input-bitacora" placeholder="Escribí acá..."></textarea>
+      <div class="chat-mic-envolvente">
+        <button class="btn-circular-chat btn-circular-marca" id="btn-grabar-bitacora" aria-label="Grabar voz">
+          <span class="circulo-interior">
+            <svg id="svg-mic-bitacora-icono" viewBox="0 0 24 24" width="19" height="19" fill="none">
+              <defs><linearGradient id="gradMicBitacora" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" class="grad-stop-a"></stop><stop offset="100%" class="grad-stop-b"></stop>
+              </linearGradient></defs>
+              <rect x="8.5" y="2.5" width="7" height="12" rx="3.5" fill="#36091A"></rect>
+              <path d="M5.5 11.5a6.5 6.5 0 0 0 13 0" stroke="#36091A" stroke-width="2.4" stroke-linecap="round"></path>
+              <line x1="12" y1="18" x2="12" y2="20.5" stroke="#36091A" stroke-width="2.4" stroke-linecap="round"></line>
+              <line x1="7.5" y1="21" x2="16.5" y2="21" stroke="#36091A" stroke-width="2.6" stroke-linecap="round"></line>
+            </svg>
+            <svg id="svg-mic-bitacora-grabando" class="oculto" viewBox="0 0 24 24" width="16" height="16" fill="none">
+              <rect x="5" y="5" width="14" height="14" rx="3" fill="#fff"></rect>
+            </svg>
+          </span>
+        </button>
+        <span class="chat-estado-grabacion oculto" id="bitacora-estado-grabacion">Grabando</span>
+      </div>
+    </div>
+    <button class="btn btn-primario mt-auto" id="btn-enviar-bitacora">Enviar</button>
+  </section>
+
+  <!-- ============== BITÁCORA — PASO 2: DARSE CUENTA + FRASE PODEROSA ============== -->
+  <section class="pantalla" id="pantalla-bitacora-insight">
+    <div class="eyebrow">Lo que veo en lo que escribiste</div>
+    <div class="tarjeta-mensaje">
+      <p id="texto-insight-bitacora">…</p>
+      <button class="btn-audio-reproducir" id="btn-reproducir-insight-bitacora">🔊 Escuchar</button>
+    </div>
+    <p class="subtitulo-pantalla oculto" id="texto-puente-frase">A continuación, te comparto una frase que puede acompañarte:</p>
+    <div class="tarjeta-mantra oculto" id="tarjeta-frase-poderosa">
+      <div class="eyebrow">Tu frase poderosa</div>
+      <p id="texto-frase-poderosa" class="mantra-texto">…</p>
+      <p id="texto-frase-explicacion" class="subtitulo-pantalla">…</p>
+      <button class="btn-audio-reproducir" id="btn-reproducir-frase-poderosa">🔊 Escuchar</button>
+    </div>
+    <button class="btn btn-primario mt-auto" id="btn-continuar-bitacora">Continuar</button>
+  </section>
+
+  <!-- ============== PANTALLA 9: DEVOLUCIÓN DEL EJERCICIO ============== -->
+  <section class="pantalla" id="pantalla-fundamento">
+    <div class="eyebrow">Aprendiendo acerca de:</div>
+    <div class="tarjeta-mensaje">
+      <p id="texto-fundamento">…</p>
+      <button class="btn-audio-reproducir" id="btn-reproducir-fundamento">🔊 Escuchar</button>
+    </div>
+    <button class="btn btn-primario mt-auto" id="btn-continuar-a-ruteo">Continuar</button>
+  </section>
+
+  <!-- ============== PANTALLA 8b: MEDITACIÓN GUIADA POR PASOS ============== -->
+  <section class="pantalla" id="pantalla-meditacion">
+    <div class="eyebrow" id="eyebrow-meditacion">Meditación en curso</div>
+    <div class="meditacion-zona">
+      <div class="meditacion-circulo" id="meditacion-circulo"></div>
+      <p class="meditacion-texto-paso" id="meditacion-texto-paso">…</p>
+      <div class="meditacion-puntos" id="meditacion-puntos"></div>
+    </div>
+    <button class="btn-saltear" id="btn-saltear-meditacion">Saltear →</button>
+  </section>
+
+  <!-- ============== PANTALLA 8c: CONVERSACIÓN MULTI-TURNO ============== -->
+  <section class="pantalla" id="pantalla-chat">
+    <div class="eyebrow">Sigamos charlando</div>
+    <div class="chat-mensajes" id="chat-mensajes"></div>
+    <div class="chat-input-fila">
+      <div class="chat-input-pill">
+        <input type="text" class="chat-input-texto" id="chat-input-texto" placeholder="Escribí tu respuesta..." enterkeyhint="enter">
+      </div>
+      <div class="chat-mic-envolvente">
+        <button class="btn-circular-chat btn-circular-marca" id="btn-grabar-chat" aria-label="Grabar voz">
+          <span class="circulo-interior">
+            <svg id="svg-mic-icono" viewBox="0 0 24 24" width="19" height="19" fill="none">
+              <defs><linearGradient id="gradMic" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" class="grad-stop-a"></stop><stop offset="100%" class="grad-stop-b"></stop>
+              </linearGradient></defs>
+              <rect x="8.5" y="2.5" width="7" height="12" rx="3.5" fill="#36091A"></rect>
+              <path d="M5.5 11.5a6.5 6.5 0 0 0 13 0" stroke="#36091A" stroke-width="2.4" stroke-linecap="round"></path>
+              <line x1="12" y1="18" x2="12" y2="20.5" stroke="#36091A" stroke-width="2.4" stroke-linecap="round"></line>
+              <line x1="7.5" y1="21" x2="16.5" y2="21" stroke="#36091A" stroke-width="2.6" stroke-linecap="round"></line>
+            </svg>
+            <svg id="svg-mic-grabando" class="oculto" viewBox="0 0 24 24" width="16" height="16" fill="none">
+              <rect x="5" y="5" width="14" height="14" rx="3" fill="#fff"></rect>
+            </svg>
+          </span>
+        </button>
+        <span class="chat-estado-grabacion oculto" id="chat-estado-grabacion">Grabando...</span>
+      </div>
+      <button class="btn-circular-chat btn-circular-marca oculto" id="btn-enviar-chat" aria-label="Enviar">
+        <span class="circulo-interior">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none">
+            <defs><linearGradient id="gradEnviar" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" class="grad-stop-a"></stop><stop offset="100%" class="grad-stop-b"></stop>
+            </linearGradient></defs>
+            <path d="M21 3 3 10.5l7.5 3M21 3l-7.5 18-3-7.5M21 3 10.5 13.5" stroke="#36091A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+          </svg>
+        </span>
+      </button>
+    </div>
+    <button class="btn btn-primario oculto" id="btn-chat-finalizar" style="margin-top:14px;">Continuar</button>
+    <p class="chat-aviso-tiempo oculto" id="chat-aviso-tiempo">
+      ¿Necesitás más tiempo? <button type="button" id="btn-chat-aviso-finalizar">Finalizar sesión</button>
+    </p>
+  </section>
+
+  <!-- ============== PANTALLA 10: ¿CÓMO SEGUIMOS? ============== -->
+  <section class="pantalla" id="pantalla-ruteo">
+    <h1 class="titulo-pantalla">¿Con qué te gustaría seguir trabajando?</h1>
+    <div class="grupo-botones" style="margin-top:24px;">
+      <button class="btn btn-secundario" id="btn-ruteo-herramienta">🔁 Otra herramienta, mismo dominio</button>
+      <button class="btn btn-secundario" id="btn-ruteo-dominio">🔄 Cambiar de dominio</button>
+      <button class="btn btn-primario" id="btn-ruteo-finalizar">Finalizar</button>
+    </div>
+  </section>
+
+  <!-- ============== CONFIRMAR CIERRE DE SESIÓN (desde el menú) ============== -->
+  <section class="pantalla" id="pantalla-confirmar-cierre">
+    <h1 class="titulo-pantalla">¿Estás segura que querés cerrar sesión?</h1>
+    <div class="grupo-botones" style="margin-top:24px;">
+      <button class="btn btn-primario" id="btn-confirmar-cierre-si">Sí, cerrar sesión</button>
+      <button class="btn btn-secundario" id="btn-confirmar-cierre-no">No, seguir</button>
+    </div>
+  </section>
+
+  <!-- ============== SESIÓN FINALIZADA ============== -->
+  <section class="pantalla pantalla-bienvenida" id="pantalla-sesion-finalizada">
+    <div class="tarjeta-logo">
+      <img src="static/img/logo.png" alt="ÍntegraMENTE" class="logo-imagen">
+    </div>
+    <p class="bienvenida-frase">Gracias por regalarte este espacio. Tu sesión ha finalizado.</p>
+    <button class="btn btn-blanco-sobre-oscuro" id="btn-sesion-finalizada-volver" style="background:#ffffff;color:#36091A;font-weight:700;box-shadow:0 6px 18px rgba(0,0,0,0.3);opacity:1;">Volver al inicio</button>
+  </section>
+
+  <!-- ============== PANTALLA: NOSOTROS ============== -->
+  <section class="pantalla" id="pantalla-nosotros">
+    <div class="eyebrow">ÍNTEGRAMENTE</div>
+    <h1 class="titulo-pantalla" id="acerca-de-titulo">Acerca de ÍntegraMENTE</h1>
+    <div class="tarjeta-mensaje" id="acerca-de-parrafos">
+      <p>Cargando…</p>
+    </div>
+    <p class="subtitulo-pantalla" id="acerca-de-creditos"></p>
+  </section>
+
+  <!-- ============== PANTALLA: PREGUNTAS FRECUENTES ============== -->
+  <section class="pantalla" id="pantalla-preguntas">
+    <div class="eyebrow">ÍNTEGRAMENTE</div>
+    <h1 class="titulo-pantalla" id="preguntas-titulo">Preguntas frecuentes</h1>
+    <div id="preguntas-lista"></div>
+  </section>
+
+  <!-- ============== PANTALLA: TU OPINIÓN ============== -->
+  <section class="pantalla" id="pantalla-opinion">
+    <div class="eyebrow">ÍNTEGRAMENTE</div>
+    <h1 class="titulo-pantalla">Tu opinión nos ayuda a crecer</h1>
+    <p class="subtitulo-pantalla">Contanos qué te pareció tu experiencia. Se guarda solo en este dispositivo.</p>
+
+    <div class="opinion-estrellas" id="opinion-estrellas" role="radiogroup" aria-label="Puntuación de 1 a 5">
+      <button type="button" class="opinion-estrella" data-valor="1" aria-label="1 — no la recomiendo">★</button>
+      <button type="button" class="opinion-estrella" data-valor="2" aria-label="2">★</button>
+      <button type="button" class="opinion-estrella" data-valor="3" aria-label="3">★</button>
+      <button type="button" class="opinion-estrella" data-valor="4" aria-label="4">★</button>
+      <button type="button" class="opinion-estrella" data-valor="5" aria-label="5 — la super recomiendo">★</button>
+    </div>
+    <p class="opinion-estrellas-leyenda" id="opinion-estrellas-leyenda">Tocá una estrella para puntuar</p>
+
+    <textarea class="opinion-texto" id="opinion-texto" rows="4" placeholder="Escribí tu comentario acá..."></textarea>
+
+    <div class="grupo-botones" style="margin-top:18px;">
+      <button class="btn btn-primario" id="btn-opinion-enviar">Enviar comentario</button>
+    </div>
+    <p class="subtitulo-pantalla oculto" id="opinion-gracias">¡Gracias por tu comentario! Nos ayuda a seguir mejorando.</p>
+  </section>
+
+  <!-- ============== PANTALLA: CANDADO ADMINISTRADOR ============== -->
+  <section class="pantalla" id="pantalla-admin-candado">
+    <div class="eyebrow">🔒 SOLO ADMINISTRADOR</div>
+    <h1 class="titulo-pantalla" style="font-size:19px;">Esta sección tiene acceso restringido</h1>
+    <p class="subtitulo-pantalla">Ingresá la clave de administrador para ver las estadísticas de opinión.</p>
+    <input type="password" class="campo-texto" id="input-admin-clave" placeholder="Clave de administrador" style="margin-top:14px;">
+    <p class="admin-error oculto" id="admin-error">No tenés permiso para ver esto.</p>
+    <div class="grupo-botones" style="margin-top:18px;">
+      <button class="btn btn-primario" id="btn-admin-entrar">Entrar</button>
+    </div>
+  </section>
+
+  <!-- ============== PANTALLA: ESTADÍSTICAS DE OPINIÓN (solo admin) ============== -->
+  <section class="pantalla" id="pantalla-admin-estadisticas">
+    <div class="eyebrow">🔒 PANEL ADMINISTRADOR</div>
+    <h1 class="titulo-pantalla" style="font-size:19px;">Opiniones recibidas</h1>
+    <p class="subtitulo-pantalla" id="admin-promedio">Promedio: —</p>
+    <div id="admin-lista-opiniones"></div>
+    <p class="subtitulo-pantalla oculto" id="admin-opiniones-vacio">Todavía no hay opiniones guardadas en este dispositivo.</p>
+  </section>
+
+  <!-- ============== PANTALLA: FRASES PODEROSAS ============== -->
+  <section class="pantalla" id="pantalla-frases">
+    <div class="eyebrow">ÍNTEGRAMENTE</div>
+    <h1 class="titulo-pantalla">Frases poderosas</h1>
+    <p class="subtitulo-pantalla">Se guardan solo en este dispositivo.</p>
+    <div id="lista-frases"></div>
+    <p id="frases-vacio" class="subtitulo-pantalla oculto">Todavía no guardaste ninguna frase — aparecen cuando usás Bitácora.</p>
+  </section>
+
+  <!-- ============== PANTALLA: MIS MÉTRICAS ============== -->
+  <section class="pantalla" id="pantalla-metricas">
+    <div class="eyebrow">ÍNTEGRAMENTE</div>
+    <h1 class="titulo-pantalla">Mis métricas</h1>
+    <p class="subtitulo-pantalla">Se guardan solo en este dispositivo.</p>
+
+    <div class="metricas-tarjetas" id="metricas-tarjetas"></div>
+
+    <div class="metricas-bloque">
+      <h3 class="metricas-subtitulo">Dominios más trabajados</h3>
+      <div id="metricas-grafico-dominios"></div>
+    </div>
+    <div class="metricas-bloque">
+      <h3 class="metricas-subtitulo">Energía por fecha</h3>
+      <div id="metricas-grafico-energia"></div>
+    </div>
+    <p id="metricas-vacio" class="subtitulo-pantalla oculto">Todavía no hay sesiones registradas en este dispositivo.</p>
+  </section>
+
+  <!-- ============== PANTALLA: REPORTES ============== -->
+  <section class="pantalla" id="pantalla-reportes">
+    <div class="eyebrow">ÍNTEGRAMENTE</div>
+    <h1 class="titulo-pantalla">Mis reportes</h1>
+    <p class="subtitulo-pantalla">Guardados en este dispositivo.</p>
+    <div id="lista-reportes"></div>
+    <p id="reportes-vacio" class="subtitulo-pantalla oculto">Todavía no generaste ningún reporte.</p>
+  </section>
+
+  <!-- ============== PANTALLA 11a: REPORTE ============== -->
+  <section class="pantalla" id="pantalla-reporte">
+    <h1 class="titulo-pantalla">Llegamos al cierre</h1>
+    <p class="subtitulo-pantalla" id="texto-estado-reporte">Guardando el reporte de tu sesión…</p>
+    <div class="grupo-botones" style="margin-top:24px;">
+      <button class="btn btn-primario mt-auto" id="btn-continuar-a-despedida">Continuar</button>
+    </div>
+  </section>
+
+  <!-- ============== PANTALLA 11b: DESPEDIDA ============== -->
+  <section class="pantalla pantalla-bienvenida" id="pantalla-despedida">
+    <div class="tarjeta-logo">
+      <img src="static/img/logo.png" alt="ÍntegraMENTE" class="logo-imagen">
+    </div>
+    <p class="bienvenida-frase" style="margin-top:24px;">
+      Gracias por regalarte este espacio de estructura y transformación.<br><br>
+      Tu sesión integral ha finalizado con éxito.
+    </p>
+    <button class="btn btn-blanco-sobre-oscuro" id="btn-nueva-sesion">Volver al inicio</button>
+  </section>
+
+</div>
+
+<audio id="reproductor-audio" class="oculto"></audio>
+<audio id="musica-fondo" class="oculto" loop></audio>
+
+<script src="static/app.js?v=11"></script>
+</body>
+</html>
